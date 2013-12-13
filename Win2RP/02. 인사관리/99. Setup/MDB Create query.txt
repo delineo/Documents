@@ -1,0 +1,139 @@
+drop table TB_CM_LANGUAGE_PACK;
+
+create table TB_CM_LANGUAGE_PACK
+(
+    MGMT_OBJECT_ID              integer     not null                            관리객체ID
+  , LANGUAGE_CD                 char(   2)  not null                            언어코드
+  , META_ITEM_DESC              memo                                            META항목설명
+
+  , constraint PK_CM_LANGUAGE_PACK primary key
+    (
+        MGMT_OBJECT_ID, LANGUAGE_CD
+    )
+);
+
+drop table TB_CM_CODE_CLASS;
+
+create table TB_CM_CODE_CLASS
+(
+    COMPANY_CD                  char(  10)  not null                            회사코드
+  , MODULE_TP                   char(   2)                                      업무구분
+  , CLASS_CD                    char(  50)  not null                            유형코드
+  , CD_VALUE_MAX_LTH            integer                                         코드값최대길이
+  , VALID_PERIOD_START_DT       char(   8)                                      유효기간시작일
+  , VALID_PERIOD_END_DT         char(   8)                                      유효기간종료일
+  , USE_YN                      char(   1)                                      사용여부
+  , CODE_TBL_USE_YN             char(   1)            
+  , LOV_YN                      char(   1)            
+  , LANGUAGE_PACK_ID            integer                                         언어관리객체ID
+  , MANAGE_RESP_YN              char(   1)                                      관리권한여부
+
+  , constraint PK_CM_CODE_CLASS primary key
+    (
+        COMPANY_CD, CLASS_CD
+    )
+);
+
+drop table TB_CM_CODE_VALUE;
+
+create table TB_CM_CODE_VALUE
+(
+    COMPANY_CD                  char(  10)  not null                            회사코드
+  , CLASS_CD                    char(  50)  not null                            유형코드
+  , CLASS_CD_VALUE              char(  50)  not null                            유형별코드값
+  , SORT_ORDER                  integer                                         정렬순서
+  , USE_YN                      char(   1)                                      사용여부
+  , ATTRIBUTE1                  char( 100)                                      속성값1
+  , ATTRIBUTE2                  char( 100)                                      속성값2
+  , ATTRIBUTE3                  char( 100)                                      속성값3
+  , ATTRIBUTE4                  char( 100)                                      속성값4
+  , ATTRIBUTE5                  char( 100)                                      속성값5
+  , ATTRIBUTE6                  char( 100)                                      속성값6
+  , ATTRIBUTE7                  char( 100)                                      속성값7
+  , ATTRIBUTE8                  char( 100)                                      속성값8
+  , ATTRIBUTE9                  char( 100)                                      속성값9
+  , ATTRIBUTE10                 char( 100)                                      속성값10
+  , LANGUAGE_PACK_ID            integer                                         언어관리객체ID
+  , VALID_PERIOD_START_DT       char(   8)  not null    default '19000101'      유효기간시작일
+  , VALID_PERIOD_END_DT         char(   8)               default '99991231'     유효기간종료일
+
+  , constraint PK_CM_CODE_VALUE primary key
+    (
+        COMPANY_CD, CLASS_CD, CLASS_CD_VALUE, VALID_PERIOD_START_DT
+    )
+);
+
+drop table TB_PL_SSTD_M;
+create table TB_PL_SSTD_M
+(
+    COMPANY_CD                  char(  22)  not null                            회사코드
+  , BSNS_STD_CD                 char(  50)  not null                            업무별기준코드
+  , BSNS_TYPE_CD                char(  10)              default '0'             유형코드
+  , BSNS_TYPE_NM                memo                    default ''              기준분류명
+  , SYS_CD_YN                   char(  10)              default ''              시스템코드여부
+  , USE_YN                      char(   1)                                      사용여부
+  , REMARKS                     char( 255)              default ''              비고
+
+  , constraint PK_PL_SSTD_M primary key
+    (
+        COMPANY_CD, BSNS_STD_CD
+    )
+);
+
+drop table TB_PL_SSTD_FIXN_M;
+create table TB_PL_SSTD_FIXN_M
+(
+    COMPANY_CD                  char(  22)  not null                            회사코드
+  , BSNS_STD_CD                 char(  50)  not null                            업무별기준코드
+  , COL_VAL_ID                  char(  20)  not null                            항목ID
+  , MDNT_YN                     char(   1)  not null    default ''              필수여부
+  , COL_TITLE                   char( 100)  not null    default ''              항목명
+  , COL_TYPE                    char(  20)  not null    default ''              항목타입
+  , COL_DISP_SIZE               integer                 default 0               Display사이즈
+  , COL_ALIGN                   char(  10)              default ''              데이터정렬
+  , COL_COMBO_FG                char(  20)              default ''              콤보구분자
+  , COL_COMBO_DS                memo                    default ''              콤보데이타셋
+  , COL_COMBO_CD                memo                    default ''              콤보Code
+  , COL_COM_VAL                 memo                    default ''              콤보Value
+  , REMARKS                     memo                    default ''              비고
+
+  , constraint PK_PL_SSTD_FIXN_M primary key
+    (
+        COMPANY_CD, BSNS_STD_CD, COL_VAL_ID
+    )
+);
+
+drop table TB_PL_SSTD_D;
+create table TB_PL_SSTD_D
+(
+    COMPANY_CD                  char(  22)  not null                            회사코드
+  , BSNS_STD_CD                 char(  50)  not null                            업무별기준코드
+  , STD_ID                      char(  50)  not null                            기준ID
+  , EFF_START_DT                char(   8)  not null                            유효시작일
+  , EFF_END_DT                  char(   8)  not null    default ''              유효종료일
+  , COL1_VAL                    char(  80)              default ''              항목1
+  , COL2_VAL                    char(  80)              default ''              항목2
+  , COL3_VAL                    char(  80)              default ''              항목3
+  , COL4_VAL                    char(  80)              default ''              항목4
+  , COL5_VAL                    char(  80)              default ''              항목5
+  , COL6_VAL                    char(  80)              default ''              항목6
+  , COL7_VAL                    char(  80)              default ''              항목7
+  , COL8_VAL                    char(  80)              default ''              항목8
+  , COL9_VAL                    char(  80)              default ''              항목9
+  , COL10_VAL                   char(  80)              default ''              항목10
+  , REMARKS                     memo                    default ''              비고
+  , COL11_VAL                   char(  80)              default ''              항목11
+  , COL12_VAL                   char(  80)              default ''              항목12
+  , COL13_VAL                   char(  80)              default ''              항목13
+  , COL14_VAL                   char(  80)              default ''              항목14
+  , COL15_VAL                   char(  80)              default ''              항목15
+
+  , constraint PK_PL_SSTD_D primary key
+    (
+        COMPANY_CD, BSNS_STD_CD, STD_ID, EFF_START_DT
+    )
+);
+
+
+
+
